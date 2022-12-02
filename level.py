@@ -79,8 +79,8 @@ class Level:
                         spirte=Crate(tile_size,x,y)
 
                     if type=='coins':
-                        if val=='0' :spirte=Coin(tile_size,x,y,'graphics/coins/gold')
-                        if val=='1' :spirte=Coin(tile_size,x,y,'graphics/coins/silver')
+                        if val=='0' :spirte=Coin(tile_size,x,y,'graphics/coins/gold',Coin.goldType)
+                        if val=='1' :spirte=Coin(tile_size,x,y,'graphics/coins/silver',Coin.silverType)
                     if type=='fg_palms':
                         if val=='0':spirte=Palm(tile_size,x,y,'graphics/terrain/palm_small',40)
                         if val=='1':spirte=Palm(tile_size,x,y,'graphics/terrain/palm_large',95)

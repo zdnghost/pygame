@@ -1,6 +1,10 @@
 import pygame 
 from support import import_folder
 
+
+from enemy import Enemy
+from tiles import Coin
+
 class Player(pygame.sprite.Sprite):
     def __init__(self,pos,surface,create_jump_particles):
         super().__init__()
@@ -30,10 +34,14 @@ class Player(pygame.sprite.Sprite):
         self.on_ceiling = False
         self.on_left = False
         self.on_right = False
+        self.is_shooting = False
+
+        # player coin
+        self.coin_points = 0
 
     def import_character_assets(self):
         character_path = 'graphics/character/'
-        self.animations = {'idle':[],'run':[],'jump':[],'fall':[]}
+        self.animations = {'idle':[],'run':[],'jump':[],'fall':[],'idle-shoot':[],'run-shoot':[],'fall-shoot':[]}
 
         for animation in self.animations.keys():
             full_path = character_path + animation
@@ -102,6 +110,12 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_SPACE]and self.on_ground:
             self.jump()
 
+        if keys[pygame.K_f]:
+            self.is_shooting=True
+            self.shoot()
+        else:
+            self.is_shooting=False
+
     def get_status(self):
         if self.direction.y<-0.2:
             self.status='jump'
@@ -109,9 +123,15 @@ class Player(pygame.sprite.Sprite):
             self.status='fall'
         else:
             if self.direction.x!=0:
-                self.status='run'
+                if(self.is_shooting):
+                    self.status='run-shoot'
+                else:
+                    self.status='run'
             else: 
-                self.status='idle'
+                if(self.is_shooting):
+                    self.status='idle-shoot'
+                else:
+                    self.status='idle'
     
     def apply_gravity(self):
         self.direction.y += self.gravity
@@ -120,9 +140,32 @@ class Player(pygame.sprite.Sprite):
     def jump(self):
         self.direction.y = self.jump_speed
 
+    def shoot(self):
+        pass
+
     def update(self):
         self.get_input()
         self.get_status()
         self.animate()
         self.run_dust_animation()
+        self.checkForCoinCollision()
         
+        
+    def checkForEnemyCollision(self):
+        hits = pygame.sprite.spritecollide(self , Enemy.enemyGroup, False)
+        if(hits):
+            return True
+        else:
+            return False
+
+    def checkForCoinCollision(self):
+        hits = pygame.sprite.spritecollide(self,Coin.coinGroup,False)
+        for coin in hits:
+            #tao effect khi nhat coin
+
+            #xoa coin
+            coin.kill()
+            if(coin.coinType==Coin.goldType):
+                self.coin_points+=3
+            elif(coin.coinType==Coin.silverType):
+                self.coin_points+=1

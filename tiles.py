@@ -36,11 +36,22 @@ class AnimatedTile(Tile):
         self.animated()
         self.rect.x+=shift
 class Coin(AnimatedTile):
-    def __init__(self, size, x, y, path):
+    #class const
+    goldType="gold_coin"
+    silverType = "silver_coin"
+
+    #tao group cho coin
+    coinGroup = pygame.sprite.Group()
+
+    def __init__(self, size, x, y, path,coin_type):
         super().__init__(size, x, y, path)
         center_x=x+int(size/2)
         center_y=y+int(size/2)
         self.rect=self.image.get_rect(center=(center_x,center_y))
+
+        #them coin vao group
+        Coin.coinGroup.add(self)
+        self.coinType = coin_type
 
 class Palm(AnimatedTile):
     def __init__(self, size, x, y, path,offset):
