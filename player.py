@@ -1,6 +1,7 @@
 import pygame 
 from support import import_folder
 
+import projectiles
 
 from enemy import Enemy
 from tiles import Coin
@@ -141,7 +142,8 @@ class Player(pygame.sprite.Sprite):
         self.direction.y = self.jump_speed
 
     def shoot(self):
-        pass
+        bullet = projectiles.Projectile(self.rect.center,"graphics/projectiles/bullet",1)
+        projectiles.player_projectiles.add(bullet)
 
     def update(self):
         self.get_input()

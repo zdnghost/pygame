@@ -11,22 +11,28 @@ clock=pygame.time.Clock()
 
 class Game:
     def __init__(self):
-        self.max_level = 5
-        self.world = World(1,self.max_level,screen,self.create_level)
+        self.max_level = 3
+        self.world = World(0,self.max_level,screen,self.create_level)
         self.status='level_select'
     
     def create_level(self,current_level):
-        self.status='in_game'
-        self.level=Level(levels[current_level],screen)
-        pass
+        self.status='ingame'
+        self.level=Level(levels[current_level],screen,self.create_world,current_level)
+
+    def create_world(self,current_level,win_result):
+        if(win_result=='win'):
+            if self.max_level<current_level+1:
+                self.max_level=current_level+1
+        self.status='level_select'
+        self.world = World(current_level,self.max_level,screen,self.create_level)
 
     def run(self):
         if(self.status=='level_select'):
             self.world.run()
-        else:
+        elif self.status=='ingame':
             self.level.run()
 
-game = Game()
+game = Game() 
 
 while True:
     for event in pygame.event.get():

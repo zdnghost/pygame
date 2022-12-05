@@ -9,7 +9,8 @@ level_0={
     'grass':'level/0/level_0_grass.csv',
     'player':'level/0/level_0_player.csv',
     #chon level
-    'node_pos':(80,400),
+    'node_pos':(180,400),
+    'node_graphics':'graphics/overworld/0',
     'content':'this is level 0',
     'unlock': 1
     }
@@ -24,7 +25,8 @@ level_1={
     'grass':'level/0/level_0_grass.csv',
     'player':'level/0/level_0_player.csv',
     #chon level
-    'node_pos':(210,600),
+    'node_pos':(310,600),
+    'node_graphics':'graphics/overworld/1',
     'content':'this is level 1',
     'unlock': 1
     }
@@ -39,7 +41,8 @@ level_2={
     'grass':'level/0/level_0_grass.csv',
     'player':'level/0/level_0_player.csv',
     #chon level
-    'node_pos':(440,200),
+    'node_pos':(540,120),
+    'node_graphics':'graphics/overworld/2',
     'content':'this is level 2',
     'unlock': 2
     }
@@ -54,7 +57,8 @@ level_3={
     'grass':'level/0/level_0_grass.csv',
     'player':'level/0/level_0_player.csv',
     #chon level
-    'node_pos':(570,350),
+    'node_pos':(630,350),
+    'node_graphics':'graphics/overworld/3',
     'content':'this is level 3',
     'unlock': 3
     }
@@ -70,6 +74,7 @@ level_4={
     'player':'level/0/level_0_player.csv',
     #chon level
     'node_pos':(710,550),
+    'node_graphics':'graphics/overworld/4',
     'content':'this is level 4',
     'unlock': 4
     }
@@ -80,11 +85,12 @@ level_5={
     'enemy':'level/0/level_0_enemy.csv',
     'fg_palms':'level/0/level_0_fg_palms.csv',
     'bg_palms':'level/0/level_0_bg_palms.csv',
-    'constraints':'level/0/level_0_constraints.csv',
+    'constraints':'level/0/level_0_constraints.csv', 
     'grass':'level/0/level_0_grass.csv',
     'player':'level/0/level_0_player.csv',
     #chon level
-    'node_pos':(890,150),
+    'node_pos':(940,250),
+    'node_graphics':'graphics/overworld/5',
     'content':'this is level 5',
     'unlock': 5
     }

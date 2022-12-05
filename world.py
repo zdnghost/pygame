@@ -1,25 +1,34 @@
 import pygame
 from game_data import levels
-
+from support import *
 class levelNode (pygame.sprite.Sprite):
-    def __init__(self,pos,status):
+    def __init__(self,pos,status,path):
         super().__init__()
-        self.image = pygame.Surface((100,80))
+        self.frames=import_folder(path)
+        self.frames_index = 0
+        self.image = self.frames[self.frames_index]
         self.status = status
-
-        if(self.status == 'available'):
-            self.image.fill('red')
-        elif self.status == 'locked':
-            self.image.fill('gray')
 
         self.rect=self.image.get_rect(center = pos)
 
+    def animate(self):
+        self.frames_index+=0.15
+        if self.frames_index>=len(self.frames):
+            self.frames_index=0
+        self.image=self.frames[int(self.frames_index)]
+
+    def update(self):
+        if(self.status=='available'):
+            self.animate()
+        else:
+            tint_surf =  self.image.copy()
+            tint_surf.fill(pygame.Color(10,10,10,100),None,pygame.BLEND_RGBA_MULT)
+            self.image.blit(tint_surf,(0,0))
 class PlayerIcon (pygame.sprite.Sprite):
     def __init__(self,pos):
         super().__init__()
         self.pos = pos
-        self.image = pygame.Surface((20,20))
-        self.image.fill('blue')
+        self.image = pygame.image.load('graphics/overworld/hat.png')
         self.rect = self.image.get_rect(center = pos)
 
     def update(self):
@@ -36,7 +45,7 @@ class World:
         #movement
         self.not_moving = True
         self.move_direction = pygame.math.Vector2(0,0)
-        self.move_speed=8
+        self.move_speed=14
 
         #create node
         self.setup_nodes()
@@ -47,10 +56,10 @@ class World:
 
         for index,node_data in enumerate(levels.values()):
             if(index<=self.max_level):
-                node_sprites = levelNode(node_data['node_pos'],'available')
+                node_sprites = levelNode(node_data['node_pos'],'available',node_data['node_graphics'])
                 self.nodes.add(node_sprites)
             else:
-                node_sprites = levelNode(node_data['node_pos'],'locked')
+                node_sprites = levelNode(node_data['node_pos'],'locked',node_data['node_graphics'])
                 self.nodes.add(node_sprites)
             
     
@@ -110,8 +119,12 @@ class World:
                             self.icon.sprite.update()
 
     def run(self):
+        self.display_surface.fill(pygame.Color(197, 175, 67, 1))
         self.get_input()
         self.draw_paths()
+
+        self.nodes.update()
+
         self.nodes.draw(self.display_surface)
 
         self.update_icon_pos()

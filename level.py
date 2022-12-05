@@ -6,8 +6,11 @@ from tiles import *
 from enemy import *
 from decoration import *
 from player import Player
+
+import projectiles
+
 class Level:
-    def __init__(self,level_data,surface):
+    def __init__(self,level_data,surface,create_world,current_level):
         #genaral setup
         self.display_surface=surface
         self.world_shift=0
@@ -56,6 +59,10 @@ class Level:
         level_width=len(terrain_layout[0])*tile_size
         self.water=Water(screen_height-40,level_width)
         self.clouds=Clouds(400,level_width,20)
+
+        #level select
+        self.current_level = current_level
+        self.create_world=create_world
 
     def create_tile_group(self,layout,type):
         spirte_group=pygame.sprite.Group()
@@ -108,6 +115,12 @@ class Level:
                     sprite = StaticTile(tile_size,x,y,hat_surface)
                     self.goal.add(sprite)
                     
+    def get_input(self):
+        keys = pygame.key.get_pressed()
+        if(keys[pygame.K_ESCAPE]):
+            self.create_world(self.current_level,'lose')
+        elif(keys[pygame.K_RETURN]):
+            self.create_world(self.current_level,'win')
 
     def enemy_collision_reverse(self):
         for enemy in self.enemy_sprites.sprites():
@@ -222,6 +235,9 @@ class Level:
         self.fg_palms_sprites.update(self.world_shift)
         self.fg_palms_sprites.draw(self.display_surface)
         
+        #level_input
+        self.get_input()
+
         #player sprites		
         self.player.update()
         self.horizontal_movement_collision()
@@ -236,3 +252,7 @@ class Level:
         self.goal.draw(self.display_surface)
         #water
         self.water.draw(self.display_surface,self.world_shift)
+
+        #draw bullet
+        projectiles.player_projectiles.update()
+        projectiles.player_projectiles.draw(self.display_surface)
