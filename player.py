@@ -37,6 +37,10 @@ class Player(pygame.sprite.Sprite):
         self.on_right = False
         self.is_shooting = False
 
+        #player attack
+        self.bullet_speed = 20 
+        self.bullet_range = 800
+        self.bullet_offset = pygame.math.Vector2(10,-5)
         # player coin
         self.coin_points = 0
 
@@ -142,7 +146,12 @@ class Player(pygame.sprite.Sprite):
         self.direction.y = self.jump_speed
 
     def shoot(self):
-        bullet = projectiles.Projectile(self.rect.center,"graphics/projectiles/bullet",1)
+        if(self.facing_right):
+            bullet = projectiles.Projectile(self.rect.center+self.bullet_offset,"graphics/projectiles/bullet",self.bullet_speed,self.bullet_range)
+
+        else:
+            bullet = projectiles.Projectile(self.rect.center+pygame.math.Vector2(-self.bullet_offset.x,self.bullet_offset.y),"graphics/projectiles/bullet",-self.bullet_speed,self.bullet_range)
+
         projectiles.player_projectiles.add(bullet)
 
     def update(self):
@@ -152,13 +161,6 @@ class Player(pygame.sprite.Sprite):
         self.run_dust_animation()
         self.checkForCoinCollision()
         
-        
-    def checkForEnemyCollision(self):
-        hits = pygame.sprite.spritecollide(self , Enemy.enemyGroup, False)
-        if(hits):
-            return True
-        else:
-            return False
 
     def checkForCoinCollision(self):
         hits = pygame.sprite.spritecollide(self,Coin.coinGroup,False)

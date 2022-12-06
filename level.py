@@ -7,6 +7,8 @@ from enemy import *
 from decoration import *
 from player import Player
 
+import time
+
 import projectiles
 
 class Level:
@@ -64,6 +66,9 @@ class Level:
         self.current_level = current_level
         self.create_world=create_world
 
+        
+        self.deathc = 0
+
     def create_tile_group(self,layout,type):
         spirte_group=pygame.sprite.Group()
          
@@ -114,7 +119,8 @@ class Level:
                     hat_surface = pygame.image.load('graphics/character/hat.png').convert_alpha()
                     sprite = StaticTile(tile_size,x,y,hat_surface)
                     self.goal.add(sprite)
-                    
+
+    #=============================================   
     def get_input(self):
         keys = pygame.key.get_pressed()
         if(keys[pygame.K_ESCAPE]):
@@ -174,6 +180,23 @@ class Level:
             player.on_ground = False
         if player.on_ceiling and player.direction.y > 0.1:
             player.on_ceiling = False
+
+    def checkPlayerDeath(self):
+        player = self.player.sprite
+        hits = pygame.sprite.spritecollide(player , Enemy.enemyGroup, False)
+        if(hits):
+            print('kill player',self.deathc)
+            self.deathc+=1
+            #self.playerDie()
+        if(player.rect.top>screen_height):
+            print('kill player2')
+            self.playerDie()
+    def playerDie(self):
+        self.display_surface.fill("red")
+        pygame.display.update()
+        time.sleep(2)
+        self.create_world(self.current_level,'lose')
+        
 
     def scroll_x(self):
         player = self.player.sprite
@@ -235,6 +258,10 @@ class Level:
         self.fg_palms_sprites.update(self.world_shift)
         self.fg_palms_sprites.draw(self.display_surface)
         
+        #projectiles
+        projectiles.player_projectiles.update(self.world_shift)
+        projectiles.player_projectiles.draw(self.display_surface)
+
         #level_input
         self.get_input()
 
@@ -245,6 +272,8 @@ class Level:
         self.get_player_on_ground()
         self.vertical_movement_collision()
         self.create_landing_dust()
+
+        self.checkPlayerDeath()
         
         self.scroll_x()
         self.player.draw(self.display_surface)
@@ -252,7 +281,3 @@ class Level:
         self.goal.draw(self.display_surface)
         #water
         self.water.draw(self.display_surface,self.world_shift)
-
-        #draw bullet
-        projectiles.player_projectiles.update()
-        projectiles.player_projectiles.draw(self.display_surface)
