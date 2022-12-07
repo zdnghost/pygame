@@ -191,12 +191,18 @@ class Level:
         if(player.rect.top>screen_height):
             print('kill player2')
             self.playerDie()
+
     def playerDie(self):
-        self.display_surface.fill("red")
+        self.display_surface.fill(pygame.Color(255,0,0,100))
+
+        self.create_world(self.current_level,'lose')
+        font = pygame.font.Font("graphics/fonts/gameFont.otf",100)
+        a_text=font.render("You dead",True,"blue")
+        rect = a_text.get_rect(center=(600,600))
+        self.display_surface.blit(a_text,rect)
+
         pygame.display.update()
         time.sleep(2)
-        self.create_world(self.current_level,'lose')
-        
 
     def scroll_x(self):
         player = self.player.sprite
