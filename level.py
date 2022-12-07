@@ -6,6 +6,7 @@ from tiles import *
 from enemy import *
 from decoration import *
 from player import Player
+from hud import Hud
 
 
 import projectiles
@@ -70,6 +71,16 @@ class Level:
         self.current_level = current_level
         self.create_world=create_world
 
+<<<<<<< Updated upstream
+=======
+        #death screen
+        self.death_scr_font = pygame.font.Font("graphics/fonts/gameFont.otf",100)
+        #hud
+        self.hud_font = pygame.font.Font("graphics/fonts/gameFont.otf",32)
+        self.hud = Hud(self.hud_font,self.player.sprite)
+        
+
+>>>>>>> Stashed changes
     def create_tile_group(self,layout,type):
         spirte_group=pygame.sprite.Group()
          
@@ -189,8 +200,7 @@ class Level:
         player = self.player.sprite
         hits = pygame.sprite.spritecollide(player , Enemy.enemyGroup, False)
         if(hits):
-            print('kill player',self.deathc)
-            self.deathc+=1
+            print('kill player')
             #self.playerDie()
         if(player.rect.top>screen_height):
             print('kill player2')
@@ -198,14 +208,11 @@ class Level:
 
     def playerDie(self):
         self.display_surface.fill(pygame.Color(255,0,0,100))
-
-        self.create_world(self.current_level,'lose')
-        font = pygame.font.Font("graphics/fonts/gameFont.otf",100)
-        a_text=font.render("You dead",True,"blue")
-        rect = a_text.get_rect(center=(600,600))
-        self.display_surface.blit(a_text,rect)
+        dead_text = self.death_scr_font.render("You Dead",True,'blue')
+        self.display_surface.blit(dead_text,dead_text.get_rect(center=(600,300)))
         pygame.display.update()
         pygame.time.delay(3000)
+        self.create_world(self.current_level,'lose')
 
     def scroll_x(self):
         player = self.player.sprite
@@ -274,6 +281,10 @@ class Level:
 
         #level_input
         self.get_input()
+
+        #HUD
+        self.hud.update()
+        self.hud.draw(self.display_surface)
 
         #player sprites		
         self.player.update()

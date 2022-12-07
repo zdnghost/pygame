@@ -3,9 +3,6 @@ from support import import_folder
 
 import projectiles
 
-from enemy import Enemy
-from tiles import Coin
-
 class Player(pygame.sprite.Sprite):
     def __init__(self,pos,surface,create_jump_particles):
         super().__init__()
@@ -45,8 +42,6 @@ class Player(pygame.sprite.Sprite):
         #time
         self.clock = pygame.time.Clock()
         self.time = 0
-        # player coin
-        self.coin_points = 0
 
     def import_character_assets(self):
         character_path = 'graphics/character/'
@@ -158,7 +153,7 @@ class Player(pygame.sprite.Sprite):
                 bullet = projectiles.Projectile(self.rect.center+pygame.math.Vector2(-self.bullet_offset.x,self.bullet_offset.y),"graphics/projectiles/bullet",-self.bullet_speed,self.bullet_range)
 
             projectiles.player_projectiles.add(bullet)
-            self.time-=1000
+            self.time-=self.shooting_speed
 
     def update(self):
         #update time
@@ -168,17 +163,6 @@ class Player(pygame.sprite.Sprite):
         self.get_status()
         self.animate()
         self.run_dust_animation()
-        self.checkForCoinCollision()
         
 
-    def checkForCoinCollision(self):
-        hits = pygame.sprite.spritecollide(self,Coin.coinGroup,False)
-        for coin in hits:
-            #tao effect khi nhat coin
 
-            #xoa coin
-            coin.kill()
-            if(coin.coinType==Coin.goldType):
-                self.coin_points+=3
-            elif(coin.coinType==Coin.silverType):
-                self.coin_points+=1
