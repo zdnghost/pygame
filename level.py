@@ -71,8 +71,6 @@ class Level:
         self.current_level = current_level
         self.create_world=create_world
 
-<<<<<<< Updated upstream
-=======
         #death screen
         self.death_scr_font = pygame.font.Font("graphics/fonts/gameFont.otf",100)
         #hud
@@ -80,7 +78,6 @@ class Level:
         self.hud = Hud(self.hud_font,self.player.sprite)
         
 
->>>>>>> Stashed changes
     def create_tile_group(self,layout,type):
         spirte_group=pygame.sprite.Group()
          
