@@ -4,10 +4,19 @@ from tiles import AnimatedTile,StaticTile
 from support import import_folder
 from random import choice,randint
 class Sky:
-    def __init__(self,horizon):
-        self.top=pygame.image.load('graphics/decoration/sky/sky_top.png').convert()
-        self.bottom=pygame.image.load('graphics/decoration/sky/sky_bottom.png').convert()
-        self.middle=pygame.image.load('graphics/decoration/sky/sky_middle.png').convert()
+    def __init__(self,time,horizon):
+        if(time=='night'):
+            self.top=pygame.image.load('graphics/decoration/sky/night/sky_top.png').convert()
+            self.bottom=pygame.image.load('graphics/decoration/sky/night/sky_bottom.png').convert()
+            self.middle=pygame.image.load('graphics/decoration/sky/night/sky_middle.png').convert()
+        elif(time=='evening'):
+            self.top=pygame.image.load('graphics/decoration/sky/evening/sky_top.png').convert()
+            self.bottom=pygame.image.load('graphics/decoration/sky/evening/sky_bottom.png').convert()
+            self.middle=pygame.image.load('graphics/decoration/sky/evening/sky_middle.png').convert()
+        else:
+            self.top=pygame.image.load('graphics/decoration/sky/evening/sky_top.png').convert()
+            self.bottom=pygame.image.load('graphics/decoration/sky/evening/sky_bottom.png').convert()
+            self.middle=pygame.image.load('graphics/decoration/sky/evening/sky_middle.png').convert()
         self.horizon=horizon
 
         #stretch
@@ -35,6 +44,24 @@ class Water:
             x=tile*water_tile_width+water_start
             y=top
             sprites=AnimatedTile(192,x,y,'graphics/decoration/water')
+            self.water_sprites.add(sprites)
+
+    def draw(self,surface,shift):
+        self.water_sprites.update(shift)
+        self.water_sprites.draw(surface)
+
+class Lava:
+    def __init__(self,top,level_width):
+        water_start=-screen_width
+        water_tile_width=192
+        tile_x_amount=int((level_width+screen_width)/water_tile_width)+20
+        self.water_sprites=pygame.sprite.Group()
+
+        for tile in range(tile_x_amount):
+            x=tile*water_tile_width+water_start
+            y=top
+            sprites=AnimatedTile(200,x,y,'graphics/decoration/lava')
+            sprites.frames_index-=0.1
             self.water_sprites.add(sprites)
 
     def draw(self,surface,shift):

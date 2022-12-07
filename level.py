@@ -56,17 +56,19 @@ class Level:
         self.constraint_sprite=self.create_tile_group(constraints_layout,'constraints')
         
         #decoration
-        self.sky=Sky(5)
+        self.sky=Sky(level_data['sky'],5)
         level_width=len(terrain_layout[0])*tile_size
-        self.water=Water(screen_height-40,level_width)
+        if(level_data['low']=='water'):
+            self.water=Water(screen_height-40,level_width)
+        else:
+            self.water=Lava(screen_height-40,level_width)
+
+        
         self.clouds=Clouds(400,level_width,20)
 
         #level select
         self.current_level = current_level
         self.create_world=create_world
-
-        
-        self.deathc = 0
 
     def create_tile_group(self,layout,type):
         spirte_group=pygame.sprite.Group()
@@ -96,14 +98,17 @@ class Level:
                         if val=='0':spirte=Palm(tile_size,x,y,'graphics/terrain/palm_small',40)
                         if val=='1':spirte=Palm(tile_size,x,y,'graphics/terrain/palm_large',95)
                     if type=='bg_palms':
-                        spirte=Palm(tile_size,x,y,'graphics/terrain/palm_bg',64)
+                        if val=='2':spirte=Palm(tile_size,x,y,'graphics/terrain/palm_bg',64)
+                        else:
+                            terrains_tile_list=import_cut_graphics('graphics/terrain/terrain_tiles.png')
+                            tile_surface=terrains_tile_list[int(val)]
+                            spirte=StaticTile(tile_size,x,y,tile_surface)
                     if type=='enemy':
                         spirte=Enemy(tile_size,x,y)
                     if type=='constraints':
                         spirte=Tile(tile_size,x,y)
 
                     spirte_group.add(spirte)
-
         return spirte_group
 
     def player_setup(self,layout):
@@ -237,6 +242,9 @@ class Level:
         #sky
         self.sky.draw(self.display_surface)
         self.clouds.draw(self.display_surface,self.world_shift)
+        #backgroung palms
+        self.bg_palms_sprites.update(self.world_shift)
+        self.bg_palms_sprites.draw(self.display_surface)
         #terrain
         self.terrain_sprites.update(self.world_shift)
         self.terrain_sprites.draw(self.display_surface)
@@ -255,9 +263,7 @@ class Level:
         #creates
         self.creates_sprites.update(self.world_shift)
         self.creates_sprites.draw(self.display_surface)
-        #backgroung palms
-        self.bg_palms_sprites.update(self.world_shift)
-        self.bg_palms_sprites.draw(self.display_surface)
+        
         #foreground palms
         self.fg_palms_sprites.update(self.world_shift)
         self.fg_palms_sprites.draw(self.display_surface)
