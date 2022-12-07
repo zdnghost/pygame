@@ -122,7 +122,7 @@ class World:
         self.display_surface.fill(pygame.Color(197, 175, 67, 1))
         self.get_input()
         self.draw_paths()
-
+        #sadasdas
         self.nodes.update()
 
         self.nodes.draw(self.display_surface)
