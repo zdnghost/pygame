@@ -147,13 +147,14 @@ class Player(pygame.sprite.Sprite):
     def shoot(self):
         if(self.time>self.shooting_speed):
             if(self.facing_right):
-                bullet = projectiles.Projectile(self.rect.center+self.bullet_offset,"graphics/projectiles/bullet",self.bullet_speed,self.bullet_range)
-
+                bullet_pos = self.rect.center+pygame.math.Vector2(5,-5)
+                bullet = projectiles.Projectile(bullet_pos,"graphics/projectiles/bullet",'right',self.bullet_speed,(50,30),self.bullet_range)
             else:
-                bullet = projectiles.Projectile(self.rect.center+pygame.math.Vector2(-self.bullet_offset.x,self.bullet_offset.y),"graphics/projectiles/bullet",-self.bullet_speed,self.bullet_range)
+                bullet_pos = self.rect.center+pygame.math.Vector2(-5,-5)
+                bullet = projectiles.Projectile(bullet_pos,"graphics/projectiles/bullet",'left',self.bullet_speed,(50,30),self.bullet_range)
 
             projectiles.player_projectiles.add(bullet)
-            self.time-=self.shooting_speed
+            self.time=0
 
     def update(self):
         #update time

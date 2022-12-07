@@ -203,6 +203,24 @@ class Level:
             print('kill player2')
             self.playerDie()
 
+    def checkPlayerProjectileCollision(self):
+        bullets = projectiles.player_projectiles
+        for bullet in bullets:
+            enemy_hits = pygame.sprite.spritecollide(bullet,self.enemy_sprites,False)
+            if enemy_hits:
+                enemy_hits[0].kill()
+                bullet.kill()
+            crate_hits = pygame.sprite.spritecollide(bullet,self.creates_sprites,False)
+            if crate_hits:
+                crate_hits[0].kill()
+                bullet.kill()
+            terrain_hits = pygame.sprite.spritecollide(bullet,self.terrain_sprites,False)
+            if terrain_hits:
+                bullet.kill()
+
+
+
+
     def playerDie(self):
         self.display_surface.fill(pygame.Color(255,0,0,100))
         dead_text = self.death_scr_font.render("You Dead",True,'blue')
@@ -273,8 +291,10 @@ class Level:
         self.fg_palms_sprites.draw(self.display_surface)
         
         #projectiles
+        self.checkPlayerProjectileCollision()
         projectiles.player_projectiles.update(self.world_shift)
         projectiles.player_projectiles.draw(self.display_surface)
+
 
         #level_input
         self.get_input()

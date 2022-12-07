@@ -4,15 +4,24 @@ all_projectiles = pygame.sprite.Group()
 player_projectiles = pygame.sprite.Group()
 
 class Projectile(pygame.sprite.Sprite):
-    def __init__(self,pos,path,bullet_speed,bullet_range):
+    def __init__(self,pos,path,direction,speed,size,range):
         super().__init__()
         self.frames=import_folder(path)
+        for index,frame in enumerate(self.frames):
+            self.frames[index]=pygame.transform.scale(frame,size)
+
         self.frames_index = 0
-        self.bullet_speed = bullet_speed
-        self.bullet_range = bullet_range
+        
+        if(direction=='right'):
+            self.bullet_speed = speed
+        else:
+            self.bullet_speed = -speed
+            for index,frame in enumerate(self.frames):
+                self.frames[index]=pygame.transform.rotate(frame,180)
+
+        self.bullet_range = range
         self.distance_travelled = 0
         self.image = self.frames[self.frames_index]
-        pygame.transform.scale(self.image,(50,50))
 
         self.rect=self.image.get_rect(center = pos)
 
