@@ -7,7 +7,6 @@ from enemy import *
 from decoration import *
 from player import Player
 
-import time
 
 import projectiles
 
@@ -200,9 +199,8 @@ class Level:
         a_text=font.render("You dead",True,"blue")
         rect = a_text.get_rect(center=(600,600))
         self.display_surface.blit(a_text,rect)
-
         pygame.display.update()
-        time.sleep(2)
+        pygame.time.delay(3000)
 
     def scroll_x(self):
         player = self.player.sprite

@@ -38,9 +38,13 @@ class Player(pygame.sprite.Sprite):
         self.is_shooting = False
 
         #player attack
+        self.shooting_speed = 750
         self.bullet_speed = 20 
         self.bullet_range = 800
         self.bullet_offset = pygame.math.Vector2(10,-5)
+        #time
+        self.clock = pygame.time.Clock()
+        self.time = 0
         # player coin
         self.coin_points = 0
 
@@ -146,15 +150,20 @@ class Player(pygame.sprite.Sprite):
         self.direction.y = self.jump_speed
 
     def shoot(self):
-        if(self.facing_right):
-            bullet = projectiles.Projectile(self.rect.center+self.bullet_offset,"graphics/projectiles/bullet",self.bullet_speed,self.bullet_range)
+        if(self.time>self.shooting_speed):
+            if(self.facing_right):
+                bullet = projectiles.Projectile(self.rect.center+self.bullet_offset,"graphics/projectiles/bullet",self.bullet_speed,self.bullet_range)
 
-        else:
-            bullet = projectiles.Projectile(self.rect.center+pygame.math.Vector2(-self.bullet_offset.x,self.bullet_offset.y),"graphics/projectiles/bullet",-self.bullet_speed,self.bullet_range)
+            else:
+                bullet = projectiles.Projectile(self.rect.center+pygame.math.Vector2(-self.bullet_offset.x,self.bullet_offset.y),"graphics/projectiles/bullet",-self.bullet_speed,self.bullet_range)
 
-        projectiles.player_projectiles.add(bullet)
+            projectiles.player_projectiles.add(bullet)
+            self.time-=1000
 
     def update(self):
+        #update time
+        self.time+=self.clock.tick()  
+
         self.get_input()
         self.get_status()
         self.animate()
