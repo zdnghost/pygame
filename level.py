@@ -5,12 +5,8 @@ from setting import tile_size,screen_height
 from tiles import *
 from enemy import *
 from decoration import *
-<<<<<<< Updated upstream
 from player import Player
 from hud import Hud
-=======
-from player import Player 
->>>>>>> Stashed changes
 
 
 import projectiles
@@ -209,7 +205,7 @@ class Level:
 
     def checkPlayerReachGoal(self):
         player = self.player.sprite
-        hits = pygame.sprite.spritecollide(player,self.goal)
+        hits = pygame.sprite.spritecollide(player,self.goal,False)
         if(hits):
             self.playerWin()
             
