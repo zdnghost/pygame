@@ -16,7 +16,7 @@ clock=pygame.time.Clock() # tạo biến FPS
 
 class Game:
     def __init__(self):# hàm thiết lập ban đầu
-        self.max_level = 5 # số dòng được mở khóa ban đầu (sau khi hoàn thành 1 dòng sẽ tăng thêm)
+        self.max_level = 1 # số dòng được mở khóa ban đầu (sau khi hoàn thành 1 dòng sẽ tăng thêm)
         self.world = World(0,self.max_level,screen,self.create_level)# khởi tạo menu chọn level từ class world(tạo level)
         self.status='level_select'# khai báo cho hàm run, tình trạng ban đầu khi mới chạy là ở chọn level
         
