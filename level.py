@@ -11,12 +11,12 @@ from hud import Hud
 
 import projectiles
 
-class Level:
+class Level: # tạo 1 class dòng chơi
     def __init__(self,level_data,surface,create_world,create_level,current_level):
         #genaral setup
         self.display_surface=surface
         self.world_shift=0
-        #player 
+        #về player 
         player_layout=import_csv_layout(level_data['player'])
         self.player=pygame.sprite.GroupSingle()
         self.goal=pygame.sprite.GroupSingle()
