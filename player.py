@@ -8,7 +8,7 @@ class Player(pygame.sprite.Sprite): # class nhân vật với input từ class s
         super().__init__()# khởi tạo kế thừa từ lớp sprite
         self.import_character_assets()# gọi hàm phương thức từ bên dưới
         self.frame_index = 0 # thứ tự của hình ảnh nhân vật
-        self.animation_speed = 0.15
+        self.animation_speed = 0.1
         self.image = self.animations['idle'][self.frame_index]# tạo hình ảnh cho nhân vật từ file idle
         self.rect = self.image.get_rect(topleft = pos) # vị trí của nhân vật trong 1 ô vuông khung pixel
         # dust particles bụi khi chạy
@@ -31,7 +31,7 @@ class Player(pygame.sprite.Sprite): # class nhân vật với input từ class s
         self.on_right = False
         self.is_shooting = False
         #player attack
-        self.shooting_speed = 750
+        self.shooting_speed = 700
         self.bullet_speed = 20 
         self.bullet_range = 800
         self.bullet_offset = pygame.math.Vector2(10,-5)
@@ -41,7 +41,7 @@ class Player(pygame.sprite.Sprite): # class nhân vật với input từ class s
 
     def import_character_assets(self):# hàm import các tính năng như chạy, nhảy, bắn,...
         character_path = 'graphics/character/'
-        self.animations = {'idle':[],'run':[],'jump':[],'fall':[],'idle-shoot':[],'run-shoot':[],'fall-shoot':[]}
+        self.animations = {'idle':[],'run':[],'jump':[],'fall':[],'idle-shoot':[],'run-shoot':[],'air-shoot':[]}
 
         for animation in self.animations.keys():
             full_path = character_path + animation
@@ -57,7 +57,7 @@ class Player(pygame.sprite.Sprite): # class nhân vật với input từ class s
         if self.frame_index >= len(animation):
             self.frame_index = 0
 
-        image = pygame.transform.scale(animation[int(self.frame_index)],(64,64))
+        image =animation[int(self.frame_index)]
         if self.facing_right:
             self.image = image
         else:
@@ -108,6 +108,7 @@ class Player(pygame.sprite.Sprite): # class nhân vật với input từ class s
         if keys[pygame.K_SPACE]and self.on_ground:
             # space để nhảy
             self.jump()
+            self.create_jump_particles(self.rect.midbottom)
 
         if keys[pygame.K_f]: # f để bắn
             self.is_shooting=True
@@ -118,9 +119,15 @@ class Player(pygame.sprite.Sprite): # class nhân vật với input từ class s
     def get_status(self): 
         # hàm tình trạng hiện tại của nhân vật
         if self.direction.y<-0.2:
-            self.status='jump'
+            if(self.is_shooting):
+                self.status='air-shoot'
+            else :     
+                self.status='jump'
         elif self.direction.y>1:
-            self.status='fall'
+            if(self.is_shooting):
+                self.status='air-shoot'
+            else :      
+                self.status='fall'
         else:
             if self.direction.x!=0:
                 if(self.is_shooting):

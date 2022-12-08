@@ -40,7 +40,6 @@ class Game:
             self.world.run()
         elif self.status=='ingame':# nếu mà tình trạng hiện tại đang trong game
             self.level.run()
-
 game = Game()# tạo 1 đối tượng game
 
 while True:# tạo vòng lặp game (vô game)

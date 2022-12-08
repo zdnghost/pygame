@@ -164,15 +164,20 @@ class Level: # tạo 1 class dòng chơi
         collidable_sprites = self.terrain_sprites.sprites() + self.creates_sprites.sprites() + self.fg_palms_sprites.sprites()
         for sprite in collidable_sprites:
             if sprite.rect.colliderect(player.rect):
-                if player.direction.x < 0 : 
+                
+                if player.direction.x <0 : 
                     player.rect.left = sprite.rect.right
                     player.on_left = True
                     self.current_x = player.rect.left
-                elif player.direction.x > 0:
+                elif player.direction.x >0:
                     player.rect.right = sprite.rect.left
                     player.on_right = True
                     self.current_x = player.rect.right
-
+                else:
+                    player.rect.right = sprite.rect.left
+                    player.on_right = True
+                    player.on_left = True
+                    self.current_x = player.rect.right
         if player.on_left and (player.rect.left < self.current_x or player.direction.x >= 0):
             player.on_left = False
         if player.on_right and (player.rect.right > self.current_x or player.direction.x <= 0):
@@ -333,13 +338,18 @@ class Level: # tạo 1 class dòng chơi
         self.hud.update(self.life_remaining)
         self.hud.draw(self.display_surface)
 
+        self.dust_sprite.update(self.world_shift)
+        self.dust_sprite.draw(self.display_surface)
+
         #player sprites		
         self.player.update()
         self.horizontal_movement_collision()
-        
         self.get_player_on_ground()
         self.vertical_movement_collision()
-        self.create_landing_dust()
+        self.create_landing_dust()  
+
+       
+        
 
         #death condition
         self.checkPlayerDeath()
