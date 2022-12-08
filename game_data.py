@@ -1,3 +1,4 @@
+# chứa thông tin cơ bản của 1 level
 level_0={
     'terrain':'level/0/level_0_terrain.csv',
     'coins':'level/0/level_0_coins.csv',
@@ -10,11 +11,12 @@ level_0={
     'player':'level/0/level_0_player.csv',
     'sky':'evening',
     'low':'water',
+    
     #chon level
-    'node_pos':(180,400),
+    'node_pos':(180,400), # vị trí hiển thị trên thanh menu
     'node_graphics':'graphics/overworld/0',
     'content':'this is level 0',
-    'unlock': 1
+    'unlock': 0
     }
 level_1={
     'terrain':'level/1/level_0_terrain.csv',
