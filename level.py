@@ -110,7 +110,7 @@ class Level: # tạo 1 class dòng chơi
                             tile_surface=terrains_tile_list[int(val)]
                             spirte=StaticTile(tile_size,x,y,tile_surface)
                     if type=='enemy':
-                        spirte=Enemy(tile_size,x,y)
+                        spirte=Enemy(tile_size,x,y,self.display_surface)
                     if type=='constraints':
                         spirte=Tile(tile_size,x,y)
                     spirte_group.add(spirte)
@@ -225,7 +225,7 @@ class Level: # tạo 1 class dòng chơi
         for bullet in bullets:
             enemy_hits = pygame.sprite.spritecollide(bullet,self.enemy_sprites,False)
             if enemy_hits:
-                enemy_hits[0].kill()
+                enemy_hits[0].is_hit =True
                 bullet.kill()
             crate_hits = pygame.sprite.spritecollide(bullet,self.creates_sprites,False)
             if crate_hits:
