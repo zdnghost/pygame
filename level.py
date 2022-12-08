@@ -199,13 +199,20 @@ class Level:
 
     def checkPlayerDeath(self):
         player = self.player.sprite
-        hits = pygame.sprite.spritecollide(player , Enemy.enemyGroup, False)
+        hits = pygame.sprite.spritecollide(player , self.enemy_sprites, False)
         if(hits):
             print('kill player')
             #self.playerDie()
         if(player.rect.top>screen_height):
             print('kill player2')
             self.playerDie()
+
+    def checkPlayerReachGoal(self):
+        player = self.player.sprite
+        hits = pygame.sprite.spritecollide(player,self.goal)
+        if(hits):
+            self.playerWin()
+            
 
     def checkPlayerProjectileCollision(self):
         bullets = projectiles.player_projectiles
@@ -222,16 +229,19 @@ class Level:
             if terrain_hits:
                 bullet.kill()
 
-
-
-
     def playerDie(self):
-        self.display_surface.fill(pygame.Color(255,0,0,100))
+        self.display_surface.fill(pygame.Color(255,0,0))
         dead_text = self.death_scr_font.render("You Dead",True,'blue')
         self.display_surface.blit(dead_text,dead_text.get_rect(center=(600,300)))
         pygame.display.update()
         pygame.time.delay(3000)
         self.create_world(self.current_level,'lose')
+
+    def playerWin(self):
+        self.display_surface.fill(pygame.Color(100,200,100))
+        win_text = self.death_scr_font.render("You Win",True,'white')
+        self.display_surface.blit(win_text,win_text.get_rect(center=(600,300)))
+        
 
     def scroll_x(self):
         player = self.player.sprite
@@ -315,8 +325,11 @@ class Level:
         self.vertical_movement_collision()
         self.create_landing_dust()
 
+        #death condition
         self.checkPlayerDeath()
-        
+        #win condition
+        self.checkPlayerReachGoal()
+
         self.scroll_x()
         self.player.draw(self.display_surface)
         self.goal.update(self.world_shift)

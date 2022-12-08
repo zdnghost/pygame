@@ -11,20 +11,18 @@ class Hud:
 
     
     def checkForCoinCollision(self):
-        hits = pygame.sprite.spritecollide(self.player,Coin.coinGroup,False)
-        for coin in hits:
-            #tao effect khi nhat coin
-
-            #xoa coin
-            coin.kill()
-            if(coin.coinType==Coin.goldType):
-                self.coin_points+=3
-            elif(coin.coinType==Coin.silverType):
-                self.coin_points+=1
+        for coin in Coin.coinGroup:
+            if(pygame.Rect.collidepoint(self.player.rect,coin.rect.center[0],coin.rect.center[1])):
+                #xoa coin
+                coin.kill()
+                if(coin.coinType==Coin.goldType):
+                    self.coin_points+=3
+                elif(coin.coinType==Coin.silverType):
+                    self.coin_points+=1
 
     def update(self):
-        self.points_display.update(self.coin_points)
         self.checkForCoinCollision()
+        self.points_display.update(self.coin_points)
 
     def draw(self,display_surface):
         self.points_display.draw(display_surface)
