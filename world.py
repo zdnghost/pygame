@@ -48,8 +48,8 @@ class World:
         self.move_speed=14
 
         #create node
-        self.setup_nodes()
-        self.setup_playerIcon()
+        self.setup_nodes() # tạo 4 cái hình node đại diện cho màn chơi
+        self.setup_playerIcon() # tạo icon tượng trưng để chọn dòng
     
     def setup_nodes(self):
         self.nodes = pygame.sprite.Group()

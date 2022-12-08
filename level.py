@@ -5,8 +5,12 @@ from setting import tile_size,screen_height
 from tiles import *
 from enemy import *
 from decoration import *
+<<<<<<< Updated upstream
 from player import Player
 from hud import Hud
+=======
+from player import Player 
+>>>>>>> Stashed changes
 
 
 import projectiles
