@@ -23,6 +23,8 @@ class Game:
         
         #level là màn chơi, world là menu chọn level
     def create_level(self,current_level):# chuyển sang màn chơi
+        if self.max_level<current_level:
+            self.max_level=current_level
         self.status='ingame' #chuyển status lại vào ingame
         self.level=Level(levels[current_level],screen,self.create_world,self.create_level,current_level)# gọi tạo level từ file level class Level
 

@@ -71,7 +71,8 @@ class Level:
         self.current_level = current_level
         self.create_world= create_world
         self.create_level = create_level
-
+        #life
+        self.life_remaining = 3
         #death screen
         self.death_scr_font = pygame.font.Font("graphics/fonts/gameFont.otf",100)
         #hud
