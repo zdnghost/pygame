@@ -33,7 +33,7 @@ class PlayerIcon (pygame.sprite.Sprite):
     def __init__(self,pos):
         super().__init__()
         self.pos = pos
-        self.image = pygame.image.load('graphics/overworld/hat.png')
+        self.image = pygame.image.load(r'graphics\character\Untitled.png')
         self.rect = self.image.get_rect(center = pos)
     def update(self):
         self.rect.center=self.pos

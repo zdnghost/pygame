@@ -33,7 +33,7 @@ class Player(pygame.sprite.Sprite): # class nhân vật với input từ class s
         #player attack
         self.shooting_speed = 700
         self.bullet_speed = 20 
-        self.bullet_range = 800
+        self.bullet_range = 1000
         self.bullet_offset = pygame.math.Vector2(10,-5)
         #time
         self.clock = pygame.time.Clock()
