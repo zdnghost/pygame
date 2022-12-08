@@ -12,7 +12,7 @@ from hud import Hud
 import projectiles
 
 class Level:
-    def __init__(self,level_data,surface,create_world,current_level):
+    def __init__(self,level_data,surface,create_world,create_level,current_level):
         #genaral setup
         self.display_surface=surface
         self.world_shift=0
@@ -69,7 +69,8 @@ class Level:
 
         #level select
         self.current_level = current_level
-        self.create_world=create_world
+        self.create_world= create_world
+        self.create_level = create_level
 
         #death screen
         self.death_scr_font = pygame.font.Font("graphics/fonts/gameFont.otf",100)
@@ -237,6 +238,9 @@ class Level:
         self.display_surface.fill(pygame.Color(100,200,100))
         win_text = self.death_scr_font.render("You Win",True,'white')
         self.display_surface.blit(win_text,win_text.get_rect(center=(600,300)))
+        pygame.display.update()
+        pygame.time.delay(3000)
+        self.create_level(self.current_level+1)
         
 
     def scroll_x(self):

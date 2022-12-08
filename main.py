@@ -24,7 +24,7 @@ class Game:
         #level là màn chơi, world là menu chọn level
     def create_level(self,current_level):# chuyển sang màn chơi
         self.status='ingame' #chuyển status lại vào ingame
-        self.level=Level(levels[current_level],screen,self.create_world,current_level)# gọi tạo level từ file level class Level
+        self.level=Level(levels[current_level],screen,self.create_world,self.create_level,current_level)# gọi tạo level từ file level class Level
 
     def create_world(self,current_level,win_result):# chuyển sang chọn level
         if(win_result=='win'): # nếu game thắng, mở khóa dòng
