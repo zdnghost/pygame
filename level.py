@@ -209,7 +209,6 @@ class Level:
                     self.is_invincible=True
                     self.invincible_counter.tick()
                 else:
-                    print('kill player')
                     self.playerDie()
 
         else:
@@ -219,7 +218,6 @@ class Level:
                 self.invincible_time=0
 
         if(player.rect.top>screen_height):
-            print('kill player2')
             self.playerDie()
         
     def checkPlayerReachGoal(self):
