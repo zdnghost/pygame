@@ -72,6 +72,8 @@ class Level:
         self.create_world= create_world
         self.create_level = create_level
         #life
+        self.invincible_time = 0
+        self.invincible_counter = pygame.time.Clock()
         self.life_remaining = 3
         self.is_invincible = False
         #death screen
@@ -205,10 +207,17 @@ class Level:
                 if(self.life_remaining>0):
                     self.life_remaining-=1
                     self.is_invincible=True
+                    self.invincible_counter.tick()
                 else:
                     print('kill player')
                     self.playerDie()
-                    
+
+        else:
+            self.invincible_time+=self.invincible_counter.tick()
+            if(self.invincible_time>1000):
+                self.is_invincible=False
+                self.invincible_time=0
+
         if(player.rect.top>screen_height):
             print('kill player2')
             self.playerDie()

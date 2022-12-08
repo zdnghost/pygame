@@ -61,6 +61,7 @@ class Health_Display:
             for index,heart in enumerate(self.heart_group):
                 if index == self.health_count-1:
                     heart.kill()
+                    self.health_count-=1
         elif health_count>self.health_count:
             heart = Heart((self.pos[0]+self.heart_offset*(health_count-1),self.pos[1]),(30,30))
             self.heart_group.add(heart)
