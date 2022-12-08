@@ -73,6 +73,7 @@ class Level:
         self.create_level = create_level
         #life
         self.life_remaining = 3
+        self.is_invincible = False
         #death screen
         self.death_scr_font = pygame.font.Font("graphics/fonts/gameFont.otf",100)
         #hud
@@ -195,16 +196,23 @@ class Level:
         if player.on_ceiling and player.direction.y > 0.1:
             player.on_ceiling = False
 
+
     def checkPlayerDeath(self):
         player = self.player.sprite
         hits = pygame.sprite.spritecollide(player , self.enemy_sprites, False)
-        if(hits):
-            print('kill player')
-            #self.playerDie()
+        if(self.is_invincible==False):
+            if(hits):
+                if(self.life_remaining>0):
+                    self.life_remaining-=1
+                    self.is_invincible=True
+                else:
+                    print('kill player')
+                    self.playerDie()
+                    
         if(player.rect.top>screen_height):
             print('kill player2')
             self.playerDie()
-
+        
     def checkPlayerReachGoal(self):
         player = self.player.sprite
         hits = pygame.sprite.spritecollide(player,self.goal,False)
@@ -229,7 +237,7 @@ class Level:
 
     def playerDie(self):
         self.display_surface.fill(pygame.Color(255,0,0))
-        dead_text = self.death_scr_font.render("You Dead",True,'blue')
+        dead_text = self.death_scr_font.render("You Dead",True,'black')
         self.display_surface.blit(dead_text,dead_text.get_rect(center=(600,300)))
         pygame.display.update()
         pygame.time.delay(3000)
@@ -315,7 +323,7 @@ class Level:
         self.get_input()
 
         #HUD
-        self.hud.update()
+        self.hud.update(self.life_remaining)
         self.hud.draw(self.display_surface)
 
         #player sprites		
