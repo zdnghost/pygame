@@ -13,7 +13,7 @@ screen=pygame.display.set_mode((screen_width,screen_height))
 # khởi tạo cửa sổ với chiều cao, chiều dài 
 
 clock=pygame.time.Clock() # tạo biến FPS
-
+pygame.display.set_caption('Megaman và đảo giấu vàng')
 class Game:
     def __init__(self):# hàm thiết lập ban đầu
         self.max_level = 1 # số dòng được mở khóa ban đầu (sau khi hoàn thành 1 dòng sẽ tăng thêm)

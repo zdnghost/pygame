@@ -1,7 +1,9 @@
 import pygame
 from game_data import levels
 from support import *
-class levelNode (pygame.sprite.Sprite):
+
+# thể hiện cho các khung level thể hiện trong menu dòng
+class levelNode (pygame.sprite.Sprite): 
     def __init__(self,pos,status,path):
         super().__init__()
         self.frames=import_folder(path)
@@ -11,6 +13,7 @@ class levelNode (pygame.sprite.Sprite):
 
         self.rect=self.image.get_rect(center = pos)
 
+    #hàm chuyển động cho các khung level
     def animate(self):
         self.frames_index+=0.15
         if self.frames_index>=len(self.frames):
@@ -24,17 +27,18 @@ class levelNode (pygame.sprite.Sprite):
             tint_surf =  self.image.copy()
             tint_surf.fill(pygame.Color(10,10,10,100),None,pygame.BLEND_RGBA_MULT)
             self.image.blit(tint_surf,(0,0))
+            
+# lớp tạo cái icon chọn dòng
 class PlayerIcon (pygame.sprite.Sprite):
     def __init__(self,pos):
         super().__init__()
         self.pos = pos
         self.image = pygame.image.load('graphics/overworld/hat.png')
         self.rect = self.image.get_rect(center = pos)
-
     def update(self):
-        
         self.rect.center=self.pos
 
+#lớp thể hiện khung cửa sổ chứa tất cả khung và icon
 class World:
     def __init__(self,start_level,max_level,surface,create_level):
         self.display_surface = surface
@@ -42,7 +46,7 @@ class World:
         self.current_level = start_level
         self.create_level=create_level
 
-        #movement
+        # di chuyển icon giữa các khung menu khác nhau
         self.not_moving = True
         self.move_direction = pygame.math.Vector2(0,0)
         self.move_speed=14
@@ -51,28 +55,27 @@ class World:
         self.setup_nodes() # tạo 4 cái hình node đại diện cho màn chơi
         self.setup_playerIcon() # tạo icon tượng trưng để chọn dòng
     
-    def setup_nodes(self):
+    def setup_nodes(self): # thể hiện node
         self.nodes = pygame.sprite.Group()
-
+        
         for index,node_data in enumerate(levels.values()):
             if(index<=self.max_level):
                 node_sprites = levelNode(node_data['node_pos'],'available',node_data['node_graphics'])
-                self.nodes.add(node_sprites)
+                self.nodes.add(node_sprites)# thể hiện các màn chơi đã mở khóa
             else:
                 node_sprites = levelNode(node_data['node_pos'],'locked',node_data['node_graphics'])
-                self.nodes.add(node_sprites)
+                self.nodes.add(node_sprites)# thể hiện các màn chơi chưa mở khóa
             
-    
-    def setup_playerIcon(self):
+    def setup_playerIcon(self): # setup icon
         self.icon = pygame.sprite.GroupSingle()
         player = PlayerIcon(self.nodes.sprites()[self.current_level].rect.center)
         self.icon.add(player)
 
-    def draw_paths(self):
+    def draw_paths(self): # đường thẳng nối các khung
         points = [node['node_pos'] for index,node in enumerate(levels.values()) if index<=self.max_level]
         pygame.draw.lines(self.display_surface,'red',False,points,4)
 
-    def get_input(self):
+    def get_input(self): # chọn dòng chơi
         if(self.not_moving):
             keys = pygame.key.get_pressed()
             if keys[pygame.K_d] and self.current_level<self.max_level:
@@ -83,10 +86,10 @@ class World:
                 self.not_moving=False
                 self.move_direction = self.get_movement_data('left')
                 self.current_level-=1
-            if keys[pygame.K_SPACE]:
+            if keys[pygame.K_SPACE]:    # nhấn space để chọn dòng chơi
                 self.create_level(self.current_level)
     
-    def get_movement_data(self,direction):
+    def get_movement_data(self,direction):# di chuyển icon giữa các khung
         start = pygame.math.Vector2(self.nodes.sprites()[self.current_level].rect.center)
         if(direction=='left'):
             end = pygame.math.Vector2(self.nodes.sprites()[self.current_level-1].rect.center)
