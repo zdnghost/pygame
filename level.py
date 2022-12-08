@@ -143,7 +143,7 @@ class Level: # tạo 1 class dòng chơi
             if pygame.sprite.spritecollide(enemy,self.constraint_sprite,False):
                 enemy.reverse()
 
-    #thiết lập độ cao của nhảy
+    #tạo hiệu ứng tiếp đất
     def create_jump_particles(self,pos):
         if self.player.sprite.facing_right:
             pos -= pygame.math.Vector2(10,5)
