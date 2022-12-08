@@ -160,18 +160,13 @@ class Level: # tạo 1 class dòng chơi
         for sprite in collidable_sprites:
             if sprite.rect.colliderect(player.rect):
                 
-                if player.direction.x <0 : 
+                if player.direction.x <0 or not player.facing_right: 
                     player.rect.left = sprite.rect.right
                     player.on_left = True
                     self.current_x = player.rect.left
-                elif player.direction.x >0:
+                elif player.direction.x >0 or player.facing_right :
                     player.rect.right = sprite.rect.left
                     player.on_right = True
-                    self.current_x = player.rect.right
-                else:
-                    player.rect.right = sprite.rect.left
-                    player.on_right = True
-                    player.on_left = True
                     self.current_x = player.rect.right
         if player.on_left and (player.rect.left < self.current_x or player.direction.x >= 0):
             player.on_left = False
