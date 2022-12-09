@@ -54,6 +54,8 @@ class World:
         #create node
         self.setup_nodes() # tạo 4 cái hình node đại diện cho màn chơi
         self.setup_playerIcon() # tạo icon tượng trưng để chọn dòng
+
+        self.background_image = pygame.image.load('graphics/overworld/sea_background.jpg')
     
     def setup_nodes(self): # thể hiện node
         self.nodes = pygame.sprite.Group()
@@ -122,7 +124,7 @@ class World:
                             self.icon.sprite.update()
 
     def run(self):
-        self.display_surface.fill(pygame.Color(197, 175, 67, 1))
+        self.display_surface.blit(self.background_image,self.background_image.get_rect(topleft=(0,0)))
         self.get_input()
         self.draw_paths()
         self.nodes.update()

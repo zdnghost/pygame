@@ -198,12 +198,13 @@ class Level: # tạo 1 class dòng chơi
         hits = pygame.sprite.spritecollide(player , self.enemy_sprites, False)
         if(self.is_invincible==False):
             if(hits):
-                if(self.life_remaining>0):
-                    self.life_remaining-=1
-                    self.is_invincible=True
-                    self.invincible_counter.tick()
-                else:
-                    self.playerDie()
+                if(hits[0].is_hit==False):
+                    if(self.life_remaining>0):
+                        self.life_remaining-=1
+                        self.is_invincible=True
+                        self.invincible_counter.tick()
+                    else:
+                        self.playerDie()
         else:
             self.invincible_time+=self.invincible_counter.tick()
             if(self.invincible_time>1000):
